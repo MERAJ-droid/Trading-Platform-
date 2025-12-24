@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "cd ../../packages/database && npx prisma generate && cd ../../apps/backend && tsc",
+    "build": "cd ../../packages/database && npx prisma generate && cd ../shared && npm run build && cd ../../apps/backend && tsc",
     "start": "node dist/index.js"
   },
   "dependencies": {
