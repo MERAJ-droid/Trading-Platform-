@@ -49,6 +49,8 @@ flowchart TB
     style EventService fill:#9575cd
     style Database fill:#4db6ac
     style Binance fill:#f06292
+```
+
 
 ### System Design
 
