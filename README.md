@@ -2,54 +2,49 @@
 
 A production-ready cryptocurrency trading platform with microservices architecture, real-time order execution, and WebSocket-based updates.
 
-## ��� Live Demo
+## Live Demo
 
 - **Frontend:** https://numatix-trading-platform.vercel.app
 - **Backend API:** https://backend-production-6024.up.railway.app
 - **WebSocket Service:** https://event-service-production-2497.up.railway.app
 
-## ��� Demo Video
+## Demo Video
 
 [Add YouTube link here after recording]
 
-## ���️ Architecture
+## Architecture
 
 ### System Design
 
 ```
-┌─────────────┐
-│   Frontend  │ (Next.js)
-└──────┬──────┘
-       │ HTTP/WS
-       ▼
-┌─────────────────┐
-│   API Gateway   │
-│   (Express)     │
-└──────┬──────────┘
-       │ Redis Pub/Sub
-       ▼
-┌─────────────┐      ┌──────────────┐
-│  Execution  │      │    Event     │
-│   Service   │◄────►│   Service    │
-└─────────────┘      └──────────────┘
-       │                     │
-       ▼                     ▼
-  Binance API          WebSocket
-
-Database: PostgreSQL
-Cache: Redis
+Frontend (Next.js)
+    |
+    v
+API Gateway (Express)
+    |
+    v
+Redis Pub/Sub
+    |
+    +----+----+
+    |         |
+    v         v
+Execution  Event
+Service    Service
+    |         |
+    v         v
+Binance   WebSocket
 ```
 
-## ��� Order Flow
+## Order Flow
 
-1. User places order → API Gateway
-2. Gateway publishes → Redis (\`commands:order:submit\`)
-3. Execution Service subscribes → Executes on Binance
-4. Result published → Redis (\`events:order:status\`)
-5. Event Service broadcasts → WebSocket to client
+1. User places order -> API Gateway
+2. Gateway publishes -> Redis (commands:order:submit)
+3. Execution Service subscribes -> Executes on Binance
+4. Result published -> Redis (events:order:status)
+5. Event Service broadcasts -> WebSocket to client
 6. Frontend updates in real-time
 
-## ���️ Tech Stack
+## Tech Stack
 
 - **Backend:** Node.js, Express, TypeScript
 - **Database:** PostgreSQL + Prisma ORM
@@ -58,47 +53,46 @@ Cache: Redis
 - **Hosting:** Railway (backend), Vercel (frontend)
 - **Security:** AES-256-GCM encryption, JWT
 
-## ��� Known Limitations
+## Known Limitations
 
-**Binance API Geo-Blocking:** Railway's servers are blocked by Binance's geo-restrictions. 
+**Binance API Geo-Blocking:** Railway servers are blocked by Binance geo-restrictions.
 
 **Architecture Validation:**
-- ✅ Complete order flow works (tested locally)
-- ✅ Redis pub/sub functioning correctly
-- ✅ WebSocket real-time updates working
-- ✅ All microservices communicating properly
+- Complete order flow works (tested locally)
+- Redis pub/sub functioning correctly
+- WebSocket real-time updates working
+- All microservices communicating properly
 
 **Production Solution:** Use approved server regions or proxy service.
 
-## ��� Local Development
+## Local Development
 
-\`\`\`bash
-# 1. Clone and install
+```bash
+# Clone and install
 git clone <repo-url>
 npm install
 
-# 2. Setup environment
-# Copy .env.example files in each service directory
+# Setup environment - copy .env.example files in each service directory
 
-# 3. Start Redis
+# Start Redis
 docker run -d -p 6379:6379 redis
 
-# 4. Migrate database
+# Migrate database
 cd packages/database
 npx prisma migrate dev
 
-# 5. Start services (4 terminals)
+# Start services (open 4 terminals)
 npm run dev:backend
 npm run dev:execution
 npm run dev:event
 npm run dev:frontend
-\`\`\`
+```
 
-Visit \`http://localhost:3000\`
+Visit http://localhost:3000
 
-## ��� Project Structure
+## Project Structure
 
-\`\`\`
+```
 apps/
 ├── backend/           # API Gateway (Port 3001)
 ├── execution-service/ # Order execution (background)
@@ -108,19 +102,19 @@ apps/
 packages/
 ├── database/          # Prisma schema
 └── shared/            # Shared TypeScript types
-\`\`\`
+```
 
-## ��� Key Features
+## Key Features
 
-- ✅ JWT authentication
-- ✅ Encrypted Binance API key storage (AES-256-GCM)
-- ✅ Redis pub/sub event architecture
-- ✅ Real-time WebSocket updates
-- ✅ Order execution with Binance Testnet
-- ✅ Position tracking from filled orders
-- ✅ Responsive UI with Tailwind CSS
+- JWT authentication
+- Encrypted Binance API key storage (AES-256-GCM)
+- Redis pub/sub event architecture
+- Real-time WebSocket updates
+- Order execution with Binance Testnet
+- Position tracking from filled orders
+- Responsive UI with Tailwind CSS
 
-## ��� Security
+## Security
 
 - AES-256-GCM encryption for API keys at rest
 - JWT tokens for authentication
@@ -128,13 +122,13 @@ packages/
 - CORS configuration
 - Environment variable secrets
 
-## ��� Database Schema
+## Database Schema
 
 - **User:** Email, password hash, encrypted Binance keys
 - **OrderCommand:** Order intent with status tracking
 - **OrderEvent:** Execution results from Binance
 
-## ��� Design Decisions
+## Design Decisions
 
 1. **Monorepo:** Shared types, easier development
 2. **Redis Pub/Sub:** Simple, scalable event bus
@@ -142,14 +136,14 @@ packages/
 4. **PostgreSQL:** ACID compliance, relational data
 5. **Custom Chart:** Lightweight, SSR-compatible
 
-## ��� LLM Usage
+## LLM Usage
 
 GitHub Copilot used for code assistance and architecture guidance.
 
-## ���‍��� Author
+## Author
 
 **Meraj** - December 24, 2025
 
-## ��� Acknowledgments
+## Acknowledgments
 
 Numatix for the opportunity | Binance Testnet API
