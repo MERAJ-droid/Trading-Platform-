@@ -10,7 +10,7 @@ A production-ready cryptocurrency trading platform with microservices architectu
 
 ## Demo Video
 
-[Add YouTube link here after recording]
+https://youtu.be/Il8HswLy0PM
 
 ## Architecture
 
@@ -172,7 +172,7 @@ packages/
 
 ## LLM Usage
 
-GitHub Copilot used for code assistance and architecture guidance.
+LLMs used for code assistance and architecture guidance.
 
 ## Author
 
