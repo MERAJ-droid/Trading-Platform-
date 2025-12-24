@@ -14,6 +14,42 @@ A production-ready cryptocurrency trading platform with microservices architectu
 
 ## Architecture
 
+### System Design - Data Flow Diagram
+
+```mermaid
+flowchart TB
+    User[User Browser]
+    Frontend[Frontend<br/>Next.js + React<br/>Port 3000]
+    APIGateway[API Gateway<br/>Express.js<br/>Port 3001]
+    Redis[(Redis<br/>Pub/Sub)]
+    ExecutionService[Execution Service<br/>Node.js]
+    EventService[Event Service<br/>WebSocket<br/>Port 3003]
+    Database[(PostgreSQL<br/>Database)]
+    Binance[Binance Testnet<br/>API]
+    
+    User -->|HTTP Requests| Frontend
+    User <-->|WebSocket| EventService
+    Frontend -->|POST /api/trading/orders| APIGateway
+    Frontend -->|GET /api/trading/orders| APIGateway
+    APIGateway -->|Publish Command| Redis
+    APIGateway <-->|Read/Write| Database
+    Redis -->|Subscribe: commands:order:submit| ExecutionService
+    ExecutionService -->|Place Order| Binance
+    Binance -->|Order Result| ExecutionService
+    ExecutionService -->|Write Events| Database
+    ExecutionService -->|Publish Event| Redis
+    Redis -->|Subscribe: events:order:status| EventService
+    EventService -->|Broadcast Update| User
+    
+    style User fill:#e1f5ff
+    style Frontend fill:#b3e5fc
+    style APIGateway fill:#81c784
+    style Redis fill:#ffb74d
+    style ExecutionService fill:#ba68c8
+    style EventService fill:#9575cd
+    style Database fill:#4db6ac
+    style Binance fill:#f06292
+
 ### System Design
 
 ```
