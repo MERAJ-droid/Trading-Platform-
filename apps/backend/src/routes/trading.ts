@@ -72,7 +72,7 @@ tradingRouter.get('/orders', async (req: AuthRequest, res) => {
       orderBy: { createdAt: 'desc' },
     });
     
-    const formattedOrders = orders.map(order => ({
+    const formattedOrders = orders.map((order: any) => ({
       orderId: order.orderId,
       symbol: order.symbol,
       side: order.side,
